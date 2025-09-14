@@ -5,6 +5,9 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	"HR-User-Service/internal/repository"
+	"HR-User-Service/internal/services"
 )
 
 func (s *Server) RegisterRoutes() http.Handler {
@@ -19,6 +22,13 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	r.GET("/", s.HelloWorldHandler)
 	r.GET("/health", s.healthHandler)
+
+	// role endpoints - pass the database service from the server
+	roleRepo := repository.NewRoleRepository(s.db)
+	roleService := services.NewRoleService(roleRepo)
+	roleHandler := NewRoleHandler(roleService)
+
+	r.POST("/roles", roleHandler.CreateRole)
 
 	return r
 }
