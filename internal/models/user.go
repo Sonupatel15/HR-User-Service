@@ -15,3 +15,14 @@ type User struct {
 	CreatedAt      time.Time `db:"created_at" json:"created_at"`
 	UpdatedAt      time.Time `db:"updated_at" json:"updated_at"`
 }
+
+// CreateUserRequest DTO for user creation
+type CreateUserRequest struct {
+	Name           string `json:"name" binding:"required"`
+	PrimaryEmail   string `json:"primary_email" binding:"required,email"`
+	SecondaryEmail string `json:"secondary_email,omitempty"`
+	MobileNumber   string `json:"mobile_number,omitempty"`
+	Password       string `json:"password" binding:"required,min=6"`
+	RoleID         string `json:"role_id" binding:"required,uuid"`
+	IsActive       bool   `json:"is_active,omitempty"`
+}

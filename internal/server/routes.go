@@ -33,6 +33,16 @@ func (s *Server) RegisterRoutes() http.Handler {
 	r.GET("/roles/name/:name", roleHandler.GetRoleByName)
 	r.GET("/roles/exists", roleHandler.RoleExists)
 
+	// user endpoints - ADD THESE
+	userRepo := repository.NewUserRepository(s.db)
+	userService := services.NewUserService(userRepo)
+	userHandler := NewUserHandler(userService)
+
+	r.POST("/users", userHandler.CreateUser)
+	r.GET("/users/:id", userHandler.GetUserByID)
+	r.GET("/users/email/:email", userHandler.GetUserByEmail)
+	r.GET("/users/exists", userHandler.UserExists)
+
 	return r
 }
 
