@@ -15,9 +15,7 @@ import (
 
 type Service interface {
 	Health() map[string]string
-
 	Close() error
-
 	GetDB() *sql.DB
 }
 
@@ -36,7 +34,6 @@ var (
 )
 
 func New() Service {
-
 	if dbInstance != nil {
 		return dbInstance
 	}
